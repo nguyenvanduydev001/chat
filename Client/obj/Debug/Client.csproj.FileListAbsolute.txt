@@ -1,0 +1,11 @@
+D:\University\Nam4_1\Lap_trinh_windowns\CHAT\Client\bin\Debug\Client.exe.config
+D:\University\Nam4_1\Lap_trinh_windowns\CHAT\Client\bin\Debug\Client.exe
+D:\University\Nam4_1\Lap_trinh_windowns\CHAT\Client\bin\Debug\Client.pdb
+D:\University\Nam4_1\Lap_trinh_windowns\CHAT\Client\obj\Debug\Client.csproj.AssemblyReference.cache
+D:\University\Nam4_1\Lap_trinh_windowns\CHAT\Client\obj\Debug\Client.Client.resources
+D:\University\Nam4_1\Lap_trinh_windowns\CHAT\Client\obj\Debug\Client.Properties.Resources.resources
+D:\University\Nam4_1\Lap_trinh_windowns\CHAT\Client\obj\Debug\Client.csproj.GenerateResource.cache
+D:\University\Nam4_1\Lap_trinh_windowns\CHAT\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
+D:\University\Nam4_1\Lap_trinh_windowns\CHAT\Client\obj\Debug\Client.exe
+D:\University\Nam4_1\Lap_trinh_windowns\CHAT\Client\obj\Debug\Client.pdb
+D:\University\Nam4_1\Lap_trinh_windowns\CHAT\Client\obj\Debug\Client.FormEmoji.resources
