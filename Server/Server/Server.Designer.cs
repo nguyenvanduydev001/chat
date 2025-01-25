@@ -62,10 +62,19 @@
             this.panel18 = new System.Windows.Forms.Panel();
             this.panel17 = new System.Windows.Forms.Panel();
             this.panel16 = new System.Windows.Forms.Panel();
+            this.panel20 = new System.Windows.Forms.Panel();
+            this.button10 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.panel21 = new System.Windows.Forms.Panel();
+            this.button8 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel11.SuspendLayout();
             this.panel12.SuspendLayout();
+            this.panel20.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -76,9 +85,9 @@
             this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(7, 11);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(136, 18);
+            this.label1.Size = new System.Drawing.Size(85, 18);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Danh sách Client";
+            this.label1.Text = "Đoạn chat";
             // 
             // richTextBoxMessages
             // 
@@ -87,7 +96,7 @@
             this.richTextBoxMessages.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBoxMessages.Location = new System.Drawing.Point(10, 50);
             this.richTextBoxMessages.Name = "richTextBoxMessages";
-            this.richTextBoxMessages.Size = new System.Drawing.Size(590, 504);
+            this.richTextBoxMessages.Size = new System.Drawing.Size(590, 502);
             this.richTextBoxMessages.TabIndex = 2;
             this.richTextBoxMessages.Text = "";
             this.richTextBoxMessages.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxMessage_KeyDown);
@@ -105,10 +114,11 @@
             // 
             // checkedListBoxClients
             // 
+            this.checkedListBoxClients.BackColor = System.Drawing.SystemColors.HighlightText;
             this.checkedListBoxClients.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.checkedListBoxClients.Cursor = System.Windows.Forms.Cursors.Hand;
             this.checkedListBoxClients.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkedListBoxClients.ForeColor = System.Drawing.Color.Chartreuse;
+            this.checkedListBoxClients.ForeColor = System.Drawing.Color.ForestGreen;
             this.checkedListBoxClients.FormattingEnabled = true;
             this.checkedListBoxClients.Location = new System.Drawing.Point(11, 45);
             this.checkedListBoxClients.Name = "checkedListBoxClients";
@@ -130,7 +140,7 @@
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.panel2);
-            this.panel1.Location = new System.Drawing.Point(272, 11);
+            this.panel1.Location = new System.Drawing.Point(320, 12);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(610, 616);
             this.panel1.TabIndex = 9;
@@ -214,6 +224,7 @@
             this.buttonSendImage.TabIndex = 8;
             this.buttonSendImage.TabStop = false;
             this.buttonSendImage.UseVisualStyleBackColor = false;
+            this.buttonSendImage.Click += new System.EventHandler(this.buttonSendImage_Click);
             // 
             // panel4
             // 
@@ -301,10 +312,10 @@
             this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button1.Location = new System.Drawing.Point(10, 5);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(178, 32);
+            this.button1.Size = new System.Drawing.Size(153, 32);
             this.button1.TabIndex = 1;
             this.button1.TabStop = false;
-            this.button1.Text = "Server, Client";
+            this.button1.Text = "Server";
             this.button1.UseVisualStyleBackColor = true;
             // 
             // panel10
@@ -356,7 +367,7 @@
             this.panel11.Controls.Add(this.checkedListBoxClients);
             this.panel11.Controls.Add(this.panel13);
             this.panel11.Controls.Add(this.panel12);
-            this.panel11.Location = new System.Drawing.Point(9, 11);
+            this.panel11.Location = new System.Drawing.Point(69, 12);
             this.panel11.Name = "panel11";
             this.panel11.Size = new System.Drawing.Size(245, 616);
             this.panel11.TabIndex = 10;
@@ -447,12 +458,107 @@
             this.panel16.Size = new System.Drawing.Size(10, 44);
             this.panel16.TabIndex = 0;
             // 
+            // panel20
+            // 
+            this.panel20.Controls.Add(this.button10);
+            this.panel20.Controls.Add(this.button9);
+            this.panel20.Controls.Add(this.panel21);
+            this.panel20.Controls.Add(this.button8);
+            this.panel20.Controls.Add(this.button7);
+            this.panel20.Controls.Add(this.button6);
+            this.panel20.Controls.Add(this.button2);
+            this.panel20.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.panel20.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel20.Location = new System.Drawing.Point(0, 0);
+            this.panel20.Name = "panel20";
+            this.panel20.Size = new System.Drawing.Size(69, 637);
+            this.panel20.TabIndex = 11;
+            // 
+            // button10
+            // 
+            this.button10.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button10.FlatAppearance.BorderSize = 0;
+            this.button10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button10.Image = global::Server.Properties.Resources.profile;
+            this.button10.Location = new System.Drawing.Point(8, 556);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(44, 33);
+            this.button10.TabIndex = 18;
+            this.button10.UseVisualStyleBackColor = true;
+            // 
+            // button9
+            // 
+            this.button9.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button9.FlatAppearance.BorderSize = 0;
+            this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button9.Image = global::Server.Properties.Resources.sidebar;
+            this.button9.Location = new System.Drawing.Point(8, 600);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(44, 33);
+            this.button9.TabIndex = 17;
+            this.button9.UseVisualStyleBackColor = true;
+            // 
+            // panel21
+            // 
+            this.panel21.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(103)))), ((int)(((byte)(107)))));
+            this.panel21.Location = new System.Drawing.Point(16, 196);
+            this.panel21.Name = "panel21";
+            this.panel21.Size = new System.Drawing.Size(35, 1);
+            this.panel21.TabIndex = 16;
+            // 
+            // button8
+            // 
+            this.button8.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button8.FlatAppearance.BorderSize = 0;
+            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button8.Image = global::Server.Properties.Resources.box;
+            this.button8.Location = new System.Drawing.Point(11, 151);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(44, 33);
+            this.button8.TabIndex = 15;
+            this.button8.UseVisualStyleBackColor = true;
+            // 
+            // button7
+            // 
+            this.button7.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button7.FlatAppearance.BorderSize = 0;
+            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button7.Image = global::Server.Properties.Resources.messger;
+            this.button7.Location = new System.Drawing.Point(11, 101);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(44, 33);
+            this.button7.TabIndex = 14;
+            this.button7.UseVisualStyleBackColor = true;
+            // 
+            // button6
+            // 
+            this.button6.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button6.FlatAppearance.BorderSize = 0;
+            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button6.Image = global::Server.Properties.Resources.marketplace;
+            this.button6.Location = new System.Drawing.Point(11, 59);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(44, 33);
+            this.button6.TabIndex = 13;
+            this.button6.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(231)))), ((int)(((byte)(231)))));
+            this.button2.Image = global::Server.Properties.Resources.chat;
+            this.button2.Location = new System.Drawing.Point(12, 15);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(44, 33);
+            this.button2.TabIndex = 12;
+            this.button2.UseVisualStyleBackColor = false;
+            // 
             // Server
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(890, 637);
+            this.ClientSize = new System.Drawing.Size(944, 637);
+            this.Controls.Add(this.panel20);
             this.Controls.Add(this.panel11);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -466,6 +572,7 @@
             this.panel11.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
             this.panel12.PerformLayout();
+            this.panel20.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -505,6 +612,14 @@
         private System.Windows.Forms.Panel panel16;
         private System.Windows.Forms.Button btnAddClient;
         private System.Windows.Forms.Button buttonDeleteMessage;
+        private System.Windows.Forms.Panel panel20;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Panel panel21;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button button10;
     }
 }
 

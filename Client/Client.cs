@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
+
 namespace Client
 {
     public partial class Client : Form
@@ -46,7 +47,6 @@ namespace Client
                 e.SuppressKeyPress = true;
             }
         }
-
 
         private void ConnectToServer()
         {
@@ -306,7 +306,96 @@ namespace Client
         // Gửi ảnh
         private void buttonSendImage_Click(object sender, EventArgs e)
         {
-            // Logic gửi hình ảnh (nếu có)
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.bmp";
+                openFileDialog.Title = "Select an Image File";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        using (Image originalImage = Image.FromFile(openFileDialog.FileName))
+                        using (Image resizedImage = ResizeImage(originalImage, 200, 100))
+                        {
+                            string timeStamp = DateTime.Now.ToString("HH:mm:ss");
+                            DisplayMessage($"[{timeStamp}] You: Sending image...");
+
+                            using (MemoryStream ms = new MemoryStream())
+                            {
+                                resizedImage.Save(ms, originalImage.RawFormat);
+                                byte[] imageBytes = ms.ToArray();
+
+                                stream.Write(imageBytes, 0, imageBytes.Length); 
+                                DisplayImage(resizedImage); 
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error sending image: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private Image ResizeImage(Image imgToResize, int targetWidth, int targetHeight)
+        {
+            float ratioX = (float)targetWidth / imgToResize.Width;
+            float ratioY = (float)targetHeight / imgToResize.Height;
+            float ratio = Math.Min(ratioX, ratioY);
+
+            int newWidth = (int)(imgToResize.Width * ratio);
+            int newHeight = (int)(imgToResize.Height * ratio);
+
+            Bitmap newBitmap = new Bitmap(newWidth, newHeight);
+
+            using (Graphics graphics = Graphics.FromImage(newBitmap))
+            {
+                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                graphics.DrawImage(imgToResize, 0, 0, newWidth, newHeight);
+            }
+
+            return newBitmap;
+        }
+
+        private void DisplayImage(Image image)
+        {
+            if (richTextBoxMessages.InvokeRequired)
+            {
+                richTextBoxMessages.Invoke(new Action(() => InsertImage(image)));
+            }
+            else
+            {
+                InsertImage(image);
+            }
+        }
+
+        private void InsertImage(Image image)
+        {
+            Bitmap bitmap = new Bitmap(image);
+            Clipboard.SetImage(bitmap);
+            richTextBoxMessages.Select(richTextBoxMessages.TextLength, 0);
+            richTextBoxMessages.Paste();
+            richTextBoxMessages.AppendText("\n");
+            bitmap.Dispose();
+        }
+        private void DisplayMessage(string message)
+        {
+            if (richTextBoxMessages.InvokeRequired)
+            {
+                richTextBoxMessages.Invoke(new Action(() => AppendMessage(message)));
+            }
+            else
+            {
+                AppendMessage(message);
+            }
+        }
+
+        private void AppendMessage(string message)
+        {
+            richTextBoxMessages.AppendText(message + Environment.NewLine);
+            richTextBoxMessages.ScrollToCaret();
         }
 
         private void btnEmoji_Click(object sender, EventArgs e)
@@ -327,6 +416,5 @@ namespace Client
                 MessageBox.Show($"Lỗi khi thêm emoji: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
     }
 }

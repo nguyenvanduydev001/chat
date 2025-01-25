@@ -128,5 +128,26 @@
   <ItemGroup>
     <None Include="images\delete.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="images\chat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\marketplace.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\messger.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\box.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\sidebar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\profile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\compose.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

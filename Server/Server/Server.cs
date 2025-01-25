@@ -86,7 +86,7 @@ namespace Server
         {
             TcpClient client = (TcpClient)obj;
             NetworkStream stream = client.GetStream();
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[4096];
 
             while (true)
             {
@@ -96,6 +96,15 @@ namespace Server
                     if (bytesRead == 0) break;
 
                     string receivedData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+
+                    if (IsImage(buffer, bytesRead))
+                    {
+                        using (MemoryStream ms = new MemoryStream(buffer, 0, bytesRead))
+                        {
+                            Image receivedImage = Image.FromStream(ms);
+                            Invoke(new Action(() => DisplayImage(receivedImage))); // Hiển thị ảnh
+                        }
+                    }
 
                     if (receivedData.StartsWith("FILE:"))
                     {
@@ -128,7 +137,6 @@ namespace Server
                     }
                     else
                     {
-                        // Xử lý tin nhắn văn bản
                         string timeStamp = DateTime.Now.ToString("HH:mm:ss");
                         string fullMessage = $"{receivedData}: Client [{timeStamp}]";
 
@@ -141,7 +149,6 @@ namespace Server
                             richTextBoxMessages.SelectionAlignment = HorizontalAlignment.Left;
                         }));
 
-                        // Chuyển tiếp tin nhắn đến tất cả các client còn lại
                         foreach (var otherClient in clients)
                         {
                             if (otherClient != client)
@@ -172,6 +179,44 @@ namespace Server
             }));
         }
 
+        private bool IsImage(byte[] data, int length)
+        {
+            try
+            {
+                using (MemoryStream ms = new MemoryStream(data, 0, length))
+                {
+                    Image img = Image.FromStream(ms);
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private void DisplayImage(Image image)
+        {
+            if (richTextBoxMessages.InvokeRequired)
+            {
+                richTextBoxMessages.Invoke(new Action(() => InsertImage(image)));
+            }
+            else
+            {
+                InsertImage(image);
+            }
+        }
+
+        private void InsertImage(Image image)
+        {
+            Bitmap bitmap = new Bitmap(image);
+            Clipboard.SetImage(bitmap);
+            richTextBoxMessages.Select(richTextBoxMessages.TextLength, 0);
+            richTextBoxMessages.Paste();
+            richTextBoxMessages.AppendText("\n");
+            bitmap.Dispose();
+        }
+
         private void buttonSend_Click(object sender, EventArgs e)
         {
             string message = textBoxMessage.Text + " " + selectedEmojiPath;
@@ -179,9 +224,8 @@ namespace Server
             string timeStamp = DateTime.Now.ToString("HH:mm:ss");
             string fullMessage = $"[{timeStamp}] Server : {message}";
 
-            sentMessages.Add(fullMessage);  // Thêm vào danh sách tin nhắn gửi
+            sentMessages.Add(fullMessage);  
 
-            // Gửi tin nhắn đến các client đã chọn
             foreach (string selectedClient in checkedListBoxClients.CheckedItems)
             {
                 TcpClient client = clients.FirstOrDefault(c =>
@@ -308,19 +352,17 @@ namespace Server
             return $"{sizeInGB:0.##} GB";
         }
 
-        private List<string> sentMessages = new List<string>();   // Lưu trữ tin nhắn bạn gửi
-        private List<string> receivedMessages = new List<string>(); // Lưu trữ tin nhắn từ Server
+        private List<string> sentMessages = new List<string>();  
+        private List<string> receivedMessages = new List<string>(); 
 
         private void buttonDeleteMessage_Click(object sender, EventArgs e)
         {
             if (sentMessages.Count > 0)
             {
-                // Xóa tin nhắn cuối cùng từ danh sách sentMessages (You gửi)
                 sentMessages.RemoveAt(sentMessages.Count - 1);
             }
             else if (receivedMessages.Count > 0)
             {
-                // Nếu không còn tin nhắn gửi đi, xóa tin nhắn từ danh sách receivedMessages (Server gửi)
                 receivedMessages.RemoveAt(receivedMessages.Count - 1);
             }
             else
@@ -329,20 +371,17 @@ namespace Server
                 return;
             }
 
-            // Làm mới lại richTextBoxMessages
             RefreshMessages();
         }
         private void RefreshMessages()
         {
             richTextBoxMessages.Clear();
 
-            // Hiển thị lại tin nhắn từ sentMessages (You gửi)
             foreach (var message in sentMessages)
             {
                 richTextBoxMessages.AppendText(message + "\n");
             }
 
-            // Hiển thị lại tin nhắn từ receivedMessages (Server gửi)
             foreach (var message in receivedMessages)
             {
                 richTextBoxMessages.AppendText(message + "\n");
@@ -365,6 +404,42 @@ namespace Server
             catch (Exception ex)
             {
                 MessageBox.Show($"Lỗi khi thêm emoji: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void buttonSendImage_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Mở hộp thoại để người dùng chọn ảnh
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif;*.tiff"; 
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string imagePath = openFileDialog.FileName; 
+
+                    byte[] imageBytes = File.ReadAllBytes(imagePath);
+
+                    foreach (TcpClient client in clients)
+                    {
+                        NetworkStream stream = client.GetStream();
+
+                        string header = $"IMG:{imageBytes.Length}\n"; 
+                        byte[] headerBytes = Encoding.UTF8.GetBytes(header);
+                        stream.Write(headerBytes, 0, headerBytes.Length); 
+
+                        stream.Write(imageBytes, 0, imageBytes.Length); 
+
+                        Invoke(new Action(() =>
+                        {
+                            richTextBoxMessages.AppendText("Đã gửi ảnh: " + Path.GetFileName(imagePath) + "\n");
+                        }));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi gửi ảnh: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
